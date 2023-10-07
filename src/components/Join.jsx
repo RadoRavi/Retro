@@ -1,8 +1,11 @@
 import {useState} from 'react'
 import { useWebSocket } from '../Socker'
+import { useWebStatus } from '../App'
 
 export const Join = ()=>{
     const socket = useWebSocket();
+    const [appState, setAppState] = useWebStatus()
+    
 
     const [id,setId] = useState("")
     const [pin,setPin] = useState("")
@@ -18,7 +21,10 @@ export const Join = ()=>{
 
         }
         )
-        socket.send("create_group") 
+        const req = {
+            "message":"create_group"
+        }
+        socket.send(JSON.stringify(req)) 
         setCreate(true)
     }
 
@@ -32,8 +38,35 @@ export const Join = ()=>{
             }
           
     }
+    
     const joinGroup=(event)=>{
-        setJoin(true)
+        socket.addEventListener('message', (data) => {
+            console.log("joinres",data)
+            if(data.data==="connection success"){
+console.log("joined")
+setJoin(true)
+console.log("before done")
+setAppState({...appState, app: "inGroup"});
+console.log("after done")
+
+            }
+            
+
+        }
+        )
+        const req = {
+            "message":"join_group",
+            "id":id,
+            "pin":pin
+        }
+        socket.send(JSON.stringify(req)) 
+        
+
+    }
+
+    const reset =(event)=>{
+        setJoin(false)
+        setCreate(false)
     }
     return(
     <div>
@@ -42,25 +75,34 @@ export const Join = ()=>{
         <button onClick={createGroup}>
         Create a group
         </button>
-        <button onClick={joinGroup}>
+        <button onClick={()=>setJoin(true)}>
         Join a group
         </button>
         </>}
         {create&&
         <>
         <p>This your group id:{id} and group pin: {pin}</p>
-        <a>Click here to join your group</a><b></b>        <a onClick={copyToClip}>Click here to copy group details to clipboard</a></>}
+        <a onClick={()=>setJoin(true)}>Click here to join your group</a><b></b>        <a onClick={copyToClip}>Click here to copy group details to clipboard</a></>}
         {join&&
         <>
 
         <div>
-        <label>Group code</label>
-        <input></input>
+        <label>Group code </label>
+        <input onChange={e => setId(e.target.value)} value ={id}></input>
         </div>
         <div>
-        <label>Group pin</label>
-        <input></input>
-        </div></>}
+        <label>Group pin </label>
+        <input  onChange={e => setPin(e.target.value)} value = {pin}></input>
+        <div>
+            <button onClick={joinGroup}>Join</button>
+        </div>
+        <div>
+            <button onClick={reset}>Create a group</button>
+            <p>appStatus {appState.app}</p>
+        </div>
+        </div>
+        </>
+        }
         
         
     </div>

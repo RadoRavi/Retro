@@ -3,18 +3,21 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { WebSocketProvider } from './Socker';
+import { WebSocketContext } from './Socker';
 const socket = new WebSocket('wss://localhost:8080/');
 
 socket.addEventListener('open',function(event){
   console.log("openmm")
 })
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <WebSocketProvider socket={socket}>
+    <WebSocketContext.Provider value={socket}>
+
     <App/>
-    </WebSocketProvider>
+    </WebSocketContext.Provider>
     
   </React.StrictMode>
 );
