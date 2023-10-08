@@ -1,0 +1,13 @@
+.timerCircle {
+
+    position: absolute;
+    background-color: white; /* Color of the hole */
+    border-radius: 50%;
+    top: calc(50vh - 90px); /* Adjust the positioning to center the hole */
+    left: calc(50vw - 90px); /* Adjust the positioning to center the hole */
+    z-index: 1; /* Place the hole above the square parts */
+  }
+
+  .gridSlot{
+    height:50vh;
+  }

@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import './App.css';
+//import './App.css';
 import { Join } from './components/Join';
 import {Router,Routes,Route} from "react-dom"
 import React, { createContext, useContext, useState } from 'react';

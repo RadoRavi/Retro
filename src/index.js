@@ -4,10 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { WebSocketContext } from './Socker';
-const socket = new WebSocket('wss://localhost:8080/');
+const socket = new WebSocket('wss://localhost:8000');
 
-socket.addEventListener('open',function(event){
+socket.addEventListener('open',function(event,error){
   console.log("openmm")
+  if(error){
+    console.log(error)
+  }
 })
 
 
