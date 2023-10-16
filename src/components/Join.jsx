@@ -1,16 +1,20 @@
-import {useState} from 'react'
+import {useState,useEffect} from 'react'
 import { useWebSocket } from '../Socker'
 import { useWebStatus } from '../App'
+import { useFeedbackStatus } from '../App'
+import setJsonSkeleton from "../JsonFormatter"
 
 export const Join = ()=>{
     const socket = useWebSocket();
     const [appState, setAppState] = useWebStatus()
+    const [feedback, setFeedback] = useFeedbackStatus()
     
 
     const [id,setId] = useState("")
     const [pin,setPin] = useState("")
     const [create,setCreate] = useState(false)
     const [join,setJoin] = useState(false)
+
     
     const createGroup=(event)=>{
         socket.addEventListener('message', (data) => {
@@ -18,7 +22,7 @@ export const Join = ()=>{
             console.log(resData.groupId)
             setId(resData.groupId)
             setPin(resData.pin)
-
+            setJsonSkeleton(resData.groupId)
         }
         )
         const req = {
@@ -27,6 +31,10 @@ export const Join = ()=>{
         socket.send(JSON.stringify(req)) 
         setCreate(true)
     }
+
+    const updateDataToLocal = ()=>{
+        localStorage.setItem("feedback",JSON.stringify(feedback))
+        }
 
     const copyToClip=async()=>{
        const text = `Please search for group id ${id} and use this pin "${pin}" to login`
@@ -42,12 +50,18 @@ export const Join = ()=>{
     const joinGroup=(event)=>{
         socket.addEventListener('message', (data) => {
             console.log("joinres",data)
-            if(data.data==="connection success"){
+            var joinRes =JSON.parse(data.data)
+            if(joinRes.message==="connection success"){
 console.log("joined")
 setJoin(true)
 console.log("before done")
 setAppState({...appState, app: "inGroup"});
+setFeedback(joinRes.data)
+localStorage.setItem("feedback",JSON.stringify(joinRes.data))
 console.log("after done")
+
+
+
 
             }
             

@@ -1,0 +1,26 @@
+.comment {
+    display: flex;
+    align-items: center; /* Vertically center the content */
+    margin-bottom: 10px; /* Add spacing between comments */
+  }
+  
+  .comment p {
+    flex: 1; /* Allow the text to take up remaining space */
+    margin: 10px; /* Remove default margin */
+  }
+  
+  .actions {
+    display: flex;
+    gap: 10px; /* Add spacing between edit and delete links */
+    padding-right: 20px;
+  }
+  
+  .edit-icon, .delete-icon {
+    text-decoration: none;
+    color: #007bff; /* Set the color for edit and delete links */
+  }
+
+  .box-container{
+    overflow: auto;
+  }
+  

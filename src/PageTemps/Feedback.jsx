@@ -1,35 +1,38 @@
 import {Timer} from "../components/Timer"
 import {Box, Grid,TextField, Typography} from '@mui/material'
-
+import {useState} from "react"
 import "./Feedback.css"
 import { Slot } from "../components/Slot"
 import { Response } from "../components/Response"
 
+
 export const Feedback = ()=>{
+
+  
     return (
 
        <Grid container>
   <Grid className="gridSlot" item xs={6} >
     <Slot text={"What went well"}>
     
-    <Response></Response>
+    <Response section={"wentwell"} ></Response>
 
     </Slot>
     
   </Grid>
   <Grid  className="gridSlot"  item xs={6}>
     <Slot text={"What didn't went well"}>
-    <Response></Response>
+    <Response section={"didntwentwell"}></Response>
     </Slot>
   </Grid>
   <Grid  className="gridSlot" item xs={6}>
     <Slot text={"What can we improve"}>
-    <Response></Response>
+    <Response section={"improve"}></Response>
     </Slot>
   </Grid>
   <Grid  className="gridSlot" item xs={6}>
     <Slot text="What we should stop doing">
-    <Response></Response>
+    <Response section={"stop"} ></Response>
     </Slot>
   </Grid>
 
