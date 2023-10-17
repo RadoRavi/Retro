@@ -6,6 +6,7 @@ import { TextareaAutosize } from '@mui/base';
 import setJsonSkeleton from "../JsonFormatter"
 import { Feedback } from '../PageTemps/Feedback';
 import "./Response.css"
+import { InputContainer } from './InputContainer';
 
 
 
@@ -126,13 +127,16 @@ function sendData(event) {
     setOnEdit(false)
 
 }
+const propsObject ={
+    myComments, setMyComments, section
+}
 return (
     <Box className="box-container">
- <TextField id="standard-basic" label="Standard" variant="standard" onChange={updateTypo} value={typo}/>
-        {/* //<InputBase sx={{ backgroundColor: "grey" }} onChange={updateTypo}>{typo}</InputBase> */}
-        <Button id={section} onClick={sendData} variant="outlined">Send</Button>
-        {/* <button id={section} onClick={sendData}>click</button> */}
-
+        *<InputContainer {...propsObject}></InputContainer>
+ {/* <TextField id="standard-basic" label="Standard" variant="standard" onChange={updateTypo} value={typo}/>*/}
+       
+    {/*    <Button id={section} onClick={sendData} variant="outlined">Send</Button> */}
+    
         {feedback[section] && feedback[section].map(res => {
             return (
                 
