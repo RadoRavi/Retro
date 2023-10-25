@@ -23,6 +23,8 @@ export const Join = ()=>{
             setId(resData.groupId)
             setPin(resData.pin)
             setJsonSkeleton(resData.groupId)
+            localStorage.setItem("id",resData.groupId)
+            localStorage.setItem("pin",resData.pin)
         }
         )
         const req = {
@@ -82,6 +84,13 @@ console.log("after done")
         setJoin(false)
         setCreate(false)
     }
+
+    const adminJoin = ()=>{
+        setId(localStorage.getItem("id"))
+        setPin(localStorage.getItem("pin"))
+        joinGroup()
+        setAppState({...appState, admin: true})
+    }
     return(
     <div>
         {(!create&&!join)&&
@@ -96,7 +105,7 @@ console.log("after done")
         {create&&
         <>
         <p>This your group id:{id} and group pin: {pin}</p>
-        <a onClick={()=>setJoin(true)}>Click here to join your group</a><b></b>        <a onClick={copyToClip}>Click here to copy group details to clipboard</a></>}
+        <a onClick={()=>adminJoin()}>Click here to join your group</a><b></b>        <a onClick={copyToClip}>Click here to copy group details to clipboard</a></>}
         {join&&
         <>
 

@@ -7,7 +7,8 @@ export const Slot=({text,children})=>{
             margin:"10px",
             height:"90%",
             border: "2px solid red",
-            borderRadius:"5px"
+            borderRadius:"5px",
+            overflow:"auto"
         }}>
     {children}
         </Box>

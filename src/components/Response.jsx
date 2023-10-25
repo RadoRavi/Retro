@@ -7,6 +7,7 @@ import setJsonSkeleton from "../JsonFormatter"
 import { Feedback } from '../PageTemps/Feedback';
 import "./Response.css"
 import { InputContainer } from './InputContainer';
+import { CommentContainer } from './CommentContainer';
 
 
 
@@ -28,13 +29,13 @@ export const Response = ({ section }) => {
         setMyComments(JSON.parse(localStorage.getItem(`myComments${section}`)))
     });
 
-    function eventListeners() {
+    const eventListeners=()=> {
         socket.addEventListener("message", (data) => {
             console.log("data.message", JSON.parse(data.data).message)
             var res = JSON.parse(data.data)
             if (res.message === "hi") {
                 var feed = JSON.parse(res.data)
-                console.log("broadcast", feed[0])
+                console.log("broadcast ------", feed[0])
                 console.log("+++++++++++++",res.data)
                 setFeedback(feed[0])
                 localStorage.setItem("feedback",JSON.stringify(feed[0]))
@@ -72,18 +73,18 @@ export const Response = ({ section }) => {
             } else {
                 
 
-                const resList = []
-                res.forEach(data => {
+                // const resList = []
+                // res.forEach(data => {
 
-                    if (data.type === section) {
-                        resList.push(data)
-                    }
+                //     if (data.type === section) {
+                //         resList.push(data)
+                //     }
 
 
 
-                })
-                console.log("res", resList)
-                setResponses(resList)
+                // })
+                // console.log("res", resList)
+                // setResponses(resList)
             }
         }
     )
@@ -128,29 +129,33 @@ function sendData(event) {
 
 }
 const propsObject ={
-    myComments, setMyComments, section
+    myComments, setMyComments, section, 
+    onEdit,
+    setOnEdit
 }
+
 return (
     <Box className="box-container">
-        *<InputContainer {...propsObject}></InputContainer>
+        <InputContainer {...propsObject}></InputContainer>
  {/* <TextField id="standard-basic" label="Standard" variant="standard" onChange={updateTypo} value={typo}/>*/}
        
     {/*    <Button id={section} onClick={sendData} variant="outlined">Send</Button> */}
     
         {feedback[section] && feedback[section].map(res => {
             return (
+                <CommentContainer res={res} myComments={myComments} setMyComments={setMyComments} sendData={sendData} section={section} eventListeners={eventListeners}></CommentContainer>
                 
-                <div id={res.id} className="comment">
-  {onEdit?<TextField id="standard-basic" label="Standard" variant="standard" onChange={updateTypo} defaultValue={res.text} value={typo}/>:<p >{res.text}</p>}
-  {myComments.includes(res.id) && (<>
-    {onEdit?<Button id={section} onClick={sendData} variant="outlined">Send</Button>:
-    <div className="actions">
-      <a className="edit-icon" onClick={()=>setOnEdit(true)}>Edit</a>
-      <a className="delete-icon" id={section}onClick={deleteComment}>Delete</a>
-    </div>}
-    </>
-  )}
-</div>
+//                 <div id={res.id} className="comment">
+//   {onEdit?<TextField id="standard-basic" label="Standard" variant="standard" onChange={updateTypo} defaultValue={res.text} value={typo}/>:<p >{res.text}</p>}
+//   {myComments.includes(res.id) && (<>
+//     {onEdit?<Button id={section} onClick={sendData} variant="outlined">Send</Button>:
+//     <div className="actions">
+//       <a className="edit-icon" onClick={()=>setOnEdit(true)}>Edit</a>
+//       <a className="delete-icon" id={section}onClick={deleteComment}>Delete</a>
+//     </div>}
+//     </>
+//   )}
+// </div>
 
                 // <div style={{display:"flex"}}>
                 // <p id={res.id}>{res.text}</p>
