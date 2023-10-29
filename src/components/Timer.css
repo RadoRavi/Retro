@@ -1,0 +1,12 @@
+.timer-div{
+    color: #282828;
+font-family: Montserrat;
+font-size: 26px;
+font-style: italic;
+font-weight: 800;
+line-height: normal;
+}
+
+.timer-div p{
+   padding: 0px 20px;
+}

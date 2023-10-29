@@ -1,6 +1,7 @@
 import { useWebSocket } from "../Socker"
 import { Box, Grid, InputBase, TextField, Typography,Button } from '@mui/material'
 import { useEffect, useState } from "react"
+import "./InputContainer.css"
 
 export const InputContainer=({myComments,setMyComments,section,haveDefault,onEdit,setOnEdit,eventListeners})=>{
 console.log("section",section,"comments",myComments)
@@ -58,7 +59,7 @@ console.log("section",section,"comments",myComments)
     
     return(
         <>
-        <input type='text' id="standard-basic" label="Standard" variant="standard" onChange={updateTypo}  placeholder={!haveDefault&&"add your reflections here"} value={typo}/>
+        <p><input className="textarea" role="textbox" type='text' id="standard-basic" label="Standard" variant="standard" onChange={updateTypo}  placeholder={!haveDefault&&"add your reflections here"} value={typo} contenteditable/></p>
         {typo&&<a id={section} onClick={sendData} variant="outlined">{onEdit?"Update":"Send"}</a>}
         </>
     )

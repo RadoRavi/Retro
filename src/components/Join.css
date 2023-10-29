@@ -1,0 +1,65 @@
+.login-Module{
+    
+    border-radius: 50px;
+box-shadow: -10px 10px 40px 0px #73CFC0;
+/* background:
+    repeating-linear-gradient( -45deg,#73CFC0, #FFF 1px,#1ec7f6 1px); */
+}
+.login-Module1{
+    
+    border-radius: 50px;
+    box-shadow: 10px 10px 40px 40px rgba(0, 0, 0, 0.50);
+    background:
+        repeating-linear-gradient( -45deg,#73CFC0, #FFF 1px,#1ec7f6 1px);
+}
+
+.selected-button{
+    color: #73CFC0;
+font-family: Lato;
+font-size: 36px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+stroke-width: 3px;
+stroke: #73CFC0;
+filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.25));
+padding:10px 20px;
+}
+
+.button{
+    color: #000;
+font-family: Lato;
+font-size: 36px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+opacity: .4;
+padding:10px 20px;
+}
+
+input{
+    border-radius: 30px;
+background: #F7F7F7;
+box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
+margin: 10px;
+color: #000;
+font-family: Lato;
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+padding-left: 10px;
+}
+
+label{
+    margin: 10px;
+}
+
+button{
+    border-radius: 30px;
+background: #73CFC0;
+box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
+width:100%;
+padding:10px;
+margin-bottom: 10px;
+}

@@ -11,16 +11,17 @@
   
   .actions {
     display: flex;
-    gap: 10px; /* Add spacing between edit and delete links */
+    gap: 10px; 
     padding-right: 20px;
   }
   
   .edit-icon, .delete-icon {
     text-decoration: none;
-    color: #007bff; /* Set the color for edit and delete links */
+    color: #007bff; 
   }
 
   .box-container{
     overflow: auto;
+    flex-direction: column;
   }
   

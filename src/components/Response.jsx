@@ -8,6 +8,7 @@ import { Feedback } from '../PageTemps/Feedback';
 import "./Response.css"
 import { InputContainer } from './InputContainer';
 import { CommentContainer } from './CommentContainer';
+import FlexCenter from './FlexCenter';
 
 
 
@@ -135,7 +136,7 @@ const propsObject ={
 }
 
 return (
-    <Box className="box-container">
+    <FlexCenter className="box-container">
         <InputContainer {...propsObject}></InputContainer>
  {/* <TextField id="standard-basic" label="Standard" variant="standard" onChange={updateTypo} value={typo}/>*/}
        
@@ -143,7 +144,9 @@ return (
     
         {feedback[section] && feedback[section].map(res => {
             return (
+                <FlexCenter >
                 <CommentContainer res={res} myComments={myComments} setMyComments={setMyComments} sendData={sendData} section={section} eventListeners={eventListeners}></CommentContainer>
+                </FlexCenter>
                 
 //                 <div id={res.id} className="comment">
 //   {onEdit?<TextField id="standard-basic" label="Standard" variant="standard" onChange={updateTypo} defaultValue={res.text} value={typo}/>:<p >{res.text}</p>}
@@ -166,7 +169,7 @@ return (
         )}
        
 
-    </Box>
+    </FlexCenter>
 
 )
 }

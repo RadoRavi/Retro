@@ -3,6 +3,8 @@ import { useState, useEffect } from "react"
 import { TimeCounter } from './TimeCounter'
 import { useWebStatus } from '../App'
 import { useWebSocket } from "../Socker"
+import "./Timer.css"
+import FlexBetween from './FlexBetween'
 export const Timer = () => {
     const socket = useWebSocket();
     const [time, setTime] = useState(2)
@@ -28,6 +30,10 @@ export const Timer = () => {
                 setTime(JSON.parse(res.data).time)
                 setProp(true)
                 run()
+            }else if(res.message==="rerun"){
+                setTime(JSON.parse(res.data).time)
+                setStart(true)
+                setKey(key+1)
             }
         })
     }
@@ -50,9 +56,17 @@ export const Timer = () => {
             "message": "run",
             "time": time
         }
-        socket.send(JSON.stringify(req))
-        
-        
+        socket.send(JSON.stringify(req))    
+    }
+    }
+
+    const sendReRun =()=>{
+        if(appState.admin){
+        const req = {
+            "message": "rerun",
+            "time": time
+        }
+        socket.send(JSON.stringify(req))    
     }
     }
 
@@ -73,7 +87,7 @@ const rerun =()=>{
 }
     return (
         <div>
-            <div style={{display:"flex",
+            <div className="timer-div" style={{display:"flex",
         justifyContent:"center"}}>
                 <CountdownCircleTimer
                     key={key}
@@ -88,13 +102,13 @@ const rerun =()=>{
                 >
                     {({ remainingTime }) => <div>
                         {start ?
-                            <p>{Math.floor(remainingTime / 60)} - {remainingTime % 60}</p> :
-                            <div>
-                                {(time > 1 && admin) && <button onClick={() => setTime(time - 1)}>-</button>}
-                                <button onClick={() => sendRun()}><p>{time}</p></button>{admin&&<button onClick={() => setTime(time + 1)}>+</button>}
-                                {key !== 0 && <button onClick={rerun}>rerun</button>}
-                            </div>
-}
+                            <p>{Math.floor(remainingTime)} SEC</p> :
+                            <FlexBetween >
+                                {(time > 1 && admin) && <a onClick={() => setTime(time - 1)}>-</a>}
+                                <a onClick={() => sendRun()}><p>{time}</p></a>{admin&&<a onClick={() => setTime(time + 1)}>+</a>}
+                                
+                            </FlexBetween>
+}{(!start && key !== 0) && <button onClick={()=>sendReRun()}>rerun</button>}
                     </div>}
                 </CountdownCircleTimer>
             </div>

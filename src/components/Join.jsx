@@ -1,134 +1,173 @@
-import {useState,useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import { useWebSocket } from '../Socker'
 import { useWebStatus } from '../App'
 import { useFeedbackStatus } from '../App'
 import setJsonSkeleton from "../JsonFormatter"
+import "./Join.css"
+import FlexCenter from './FlexCenter'
+import FlexBetween from './FlexBetween'
 
-export const Join = ()=>{
+export const Join = () => {
     const socket = useWebSocket();
     const [appState, setAppState] = useWebStatus()
     const [feedback, setFeedback] = useFeedbackStatus()
     
 
-    const [id,setId] = useState("")
-    const [pin,setPin] = useState("")
-    const [create,setCreate] = useState(false)
-    const [join,setJoin] = useState(false)
 
-    
-    const createGroup=(event)=>{
+    const [id, setId] = useState("")
+    const [pin, setPin] = useState("")
+    const [create, setCreate] = useState(false)
+    const [join, setJoin] = useState(true)
+    const [copy,setCopy] = useState(false)
+    const [clickAdmin,setClickAdmin] = useState(false)
+
+    useEffect(()=>{
+        if((appState.admin)){
+            joinGroup()
+        }
+    },[clickAdmin])
+
+    const createGroup = (event) => {
         socket.addEventListener('message', (data) => {
             const resData = JSON.parse(data.data)
             console.log(resData.groupId)
             setId(resData.groupId)
             setPin(resData.pin)
             setJsonSkeleton(resData.groupId)
-            localStorage.setItem("id",resData.groupId)
-            localStorage.setItem("pin",resData.pin)
+            localStorage.setItem("id", resData.groupId)
+            localStorage.setItem("pin", resData.pin)
         }
         )
         const req = {
-            "message":"create_group"
+            "message": "create_group"
         }
-        socket.send(JSON.stringify(req)) 
+        socket.send(JSON.stringify(req))
         setCreate(true)
+        setJoin(false)
     }
 
-    const updateDataToLocal = ()=>{
-        localStorage.setItem("feedback",JSON.stringify(feedback))
+    const updateDataToLocal = () => {
+        localStorage.setItem("feedback", JSON.stringify(feedback))
+    }
+
+    const copyToClip = async () => {
+        const text = `Please search for group id ${id} and use this pin "${pin}" to login`
+        try {
+            await navigator.clipboard.writeText(text);
+            console.log('Content copied to clipboard');
+            setCopy(true)
+            setTimeout(()=>setCopy(false),2000)
+        } catch (err) {
+            console.error('Failed to copy: ', err);
         }
 
-    const copyToClip=async()=>{
-       const text = `Please search for group id ${id} and use this pin "${pin}" to login`
-            try {
-              await navigator.clipboard.writeText(text);
-              console.log('Content copied to clipboard');
-            } catch (err) {
-              console.error('Failed to copy: ', err);
-            }
-          
     }
-    
-    const joinGroup=(event)=>{
+    const Join = () => {
+        setCreate(false)
+        setJoin(true)
+    }
+
+    const joinGroup = (event) => {
+        console.log("joining")
+        setCreate(false)
         socket.addEventListener('message', (data) => {
-            console.log("joinres",data)
-            var joinRes =JSON.parse(data.data)
-            if(joinRes.message==="connection success"){
-console.log("joined")
-setJoin(true)
-console.log("before done")
-setAppState({...appState, app: "inGroup"});
-setFeedback(joinRes.data)
-localStorage.setItem("feedback",JSON.stringify(joinRes.data))
-console.log("after done")
+            console.log("joinres", data)
+            var joinRes = JSON.parse(data.data)
+            if (joinRes.message === "connection success") {
+                console.log("joined")
+                setJoin(true)
+                console.log("before done")
+                setAppState({ ...appState, app: "inGroup" });
+                setFeedback(joinRes.data)
+                localStorage.setItem("feedback", JSON.stringify(joinRes.data))
+                console.log("after done")
 
 
 
 
             }
-            
+
 
         }
         )
         const req = {
-            "message":"join_group",
-            "id":id,
-            "pin":pin
+            "message": "join_group",
+            "id": id,
+            "pin": pin
         }
-        socket.send(JSON.stringify(req)) 
-        
+        socket.send(JSON.stringify(req))
+
 
     }
 
-    const reset =(event)=>{
+    const reset = (event) => {
         setJoin(false)
         setCreate(false)
     }
+    
 
-    const adminJoin = ()=>{
+    const adminJoin = () => {
+        setClickAdmin(true)
+        setAppState({"app":"home","admin":true})
+        setAppState({"app":"home","admin":true})
         setId(localStorage.getItem("id"))
         setPin(localStorage.getItem("pin"))
+        console.log("admin ---1 ",appState.admin) 
+        
+        console.log("admin ---2 ",appState.admin) 
+        if(appState.admin){
         joinGroup()
-        setAppState({...appState, admin: true})
-    }
-    return(
-    <div>
-        {(!create&&!join)&&
-        <>
-        <button onClick={createGroup}>
-        Create a group
-        </button>
-        <button onClick={()=>setJoin(true)}>
-        Join a group
-        </button>
-        </>}
-        {create&&
-        <>
-        <p>This your group id:{id} and group pin: {pin}</p>
-        <a onClick={()=>adminJoin()}>Click here to join your group</a><b></b>        <a onClick={copyToClip}>Click here to copy group details to clipboard</a></>}
-        {join&&
-        <>
+        console.log("admin ---3 ",appState.admin)
+        }   
+                  }
+    return (
+        <FlexCenter  className='login-Module'>
+            
+            <div>
+                <div>
+                    {
+                        <FlexCenter>
+                            <a className={create ? "selected-button" : "button"} onClick={createGroup}>
+                                Create
+                            </a>
+                            <a className={join ? "selected-button" : "button"} onClick={Join}>
+                                Join
+                            </a>
+                        </FlexCenter>}
+                </div>
+                <FlexCenter sx={{ width: "auto" }}>
+                    <div>
+                        {create &&
+                            <>
 
-        <div>
-        <label>Group code </label>
-        <input onChange={e => setId(e.target.value)} value ={id}></input>
-        </div>
-        <div>
-        <label>Group pin </label>
-        <input  onChange={e => setPin(e.target.value)} value = {pin}></input>
-        <div>
-            <button onClick={joinGroup}>Join</button>
-        </div>
-        <div>
-            <button onClick={reset}>Create a group</button>
-            <p>appStatus {appState.app}</p>
-        </div>
-        </div>
-        </>
-        }
-        
-        
-    </div>
+                                <p style={{ textAlign: "center", margin: "20px 40px" }}>{(pin && id)
+                                    ? `This your group id:${id} and group pin: ${pin}` : 'Something went wrong, Click on create again or reload the page'}</p>
+                                {(pin && id) && <>
+                                    <button onClick={() => adminJoin()}>Join your group as admin</button>
+                                    <button onClick={copyToClip}>{copy?"Copied to Clipboard":"Copy group details to clipboard"}</button>
+                                </>}
+                            </>}
+                        {join &&
+                            <>
+
+                                <FlexBetween>
+                                    <label>Group id: </label>
+                                    <input onChange={e => setId(e.target.value)} value={id}></input>
+                                </FlexBetween>
+                                <FlexBetween>
+                                    <label>Group pin: </label>
+                                    <input onChange={e => setPin(e.target.value)} value={pin}></input>
+                                </FlexBetween>
+                                <button className="joinButton" onClick={joinGroup}>Lets Join</button>
+
+                            </>
+                        }
+
+                    </div>
+                </FlexCenter>
+            </div>
+           
+        </FlexCenter >
     )
 }
 
