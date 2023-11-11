@@ -3,7 +3,7 @@ import './App.css';
 import { Join } from './components/Join';
 import {Router,Routes,Route} from "react-dom"
 import React, { createContext, useContext, useState } from 'react';
-import {Feedback} from "./PageTemps/Feedback"
+import {Bonsai} from "./PageTemps/Bonsai"
 import {Box} from '@mui/material'
 import FlexBetween from './components/FlexCenter';
 
@@ -33,7 +33,8 @@ const App=()=>{
           <div style={{width:'50vw',height:"50vh"}}><Join></Join></div>
           }
           {appState.app==="inGroup"&&
-          <Feedback></Feedback>
+          <div style={{width:'95vw',height:"85vh"}}><Bonsai></Bonsai></div>
+          
           }
         </feedbackContent.Provider>
         </statusContent.Provider>

@@ -3,13 +3,37 @@
     position: absolute;
     background-color: white; /* Color of the hole */
     border-radius: 50%;
-    top: calc(50vh - 90px); /* Adjust the positioning to center the hole */
-    left: calc(50vw - 90px); /* Adjust the positioning to center the hole */
+    top: calc(100vh - 200px); /* Adjust the positioning to center the hole */
+    left: calc(100vw - 200px); /* Adjust the positioning to center the hole */
     z-index: 1; /* Place the hole above the square parts */
   }
 
   .gridSlot{
-    height:50vh;
+    height:100%;
+    width:33.3%;
+    
+    background-size:     cover;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position: center center;   
+    display: flex;
+    justify-content: center;
+  }
+
+  .worm{
+    border-right: 2px solid white;
+    background-image: url("../asset/pexels-chris-f-3354396.jpg");
+    /* background-image: url("/src/asset/pexels-chris-f-3354396.jpg"); */
+  }
+
+  .water{
+    background-image: url("../asset/pexels-markus-spiske-95215.jpg");
+    /* background-image: url("/src/asset/pexels-chris-f-3354396.jpg"); */
+  }
+
+  .plant{
+    border-right: 2px solid white;
+    background-image: url("../asset/pexels-valeria-ushakova-3094208.jpg");
+    /* background-image: url("/src/asset/pexels-chris-f-3354396.jpg"); */
   }
 
   

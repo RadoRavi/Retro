@@ -13,6 +13,7 @@ export const Feedback = ()=>{
 
        <Grid container>
   <Grid className="gridSlot" item xs={6} >
+    
     <Slot text={"What went well"}>
     
     <Response section={"wentwell"} ></Response>

@@ -1,7 +1,10 @@
 .comment {
     display: flex;
     align-items: center; /* Vertically center the content */
-    margin-bottom: 10px; /* Add spacing between comments */
+    margin: 10px; /* Add spacing between comments */
+    background-color: rgb(240, 248, 255,.4);
+    border-radius: 10px;
+    
   }
   
   .comment p {
@@ -21,7 +24,49 @@
   }
 
   .box-container{
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y:auto;
+    display:flex;
     flex-direction: column;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .box-container::-webkit-scrollbar{
+    width:2px;
+  }
+  .box-container::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+   
+  .box-container::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+  }
+
+  .gridSlot p{
+width: 90%;
+  }
+
+  .input-foot{
+    position: -webkit-sticky; /* Safari */
+  position: sticky;
+  bottom: 0;
+  }
+
+  .response-container{
+    overflow-x: hidden;
+    overflow-y:auto;
+  }
+  .response-container::-webkit-scrollbar {
+    display: none;
+}
+
+  .delete-icon{
+    border: unset;
+    background: unset;
+    width:unset;
+    padding:1px;
+    margin-bottom: unset;
+  
   }
   

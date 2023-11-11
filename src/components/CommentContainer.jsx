@@ -3,18 +3,23 @@ import { useEffect, useState } from "react"
 import { useWebSocket } from "../Socker"
 import "./Response.css"
 import { InputContainer } from './InputContainer'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { faFileEdit } from '@fortawesome/free-solid-svg-icons'
 
 
 export const CommentContainer=({res,myComments, setMyComments,sendData,section,eventListeners})=>{
    const socket = useWebSocket();
 
     function deleteComment(event){
+    
         const randomKeu = event.target.parentElement.parentElement.id
         const id = event.target.id
-       
+       //18001116
         const data = {
             id,
             randomKeu,
+            
             "message":"delete"
     
         }
@@ -34,8 +39,9 @@ const [onEdit,setOnEdit] = useState(false)
   {myComments.includes(res.id) && (<>
     {!onEdit&&
     <div className="actions">
-      <a className="edit-icon" onClick={()=>setOnEdit(true)}>Edit</a>
-      <a className="delete-icon" id={section}onClick={deleteComment}>Delete</a>
+      <a className="edit-icon" onClick={()=>setOnEdit(true)}><FontAwesomeIcon icon={faFileEdit} style={{color: "#8cb0ee",}} /></a>
+      <button id={section}onClick={deleteComment} className="delete-icon" ><FontAwesomeIcon icon={faTrashCan} style={{color: "#8cb0ee",}} /></button>
+   
     </div>
 }
     </>

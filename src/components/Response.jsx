@@ -37,8 +37,9 @@ export const Response = ({ section }) => {
             if (res.message === "hi") {
                 var feed = JSON.parse(res.data)
                 console.log("broadcast ------", feed[0])
-                console.log("+++++++++++++",res.data)
-                setFeedback(feed[0])
+                setFeedback((feed[0]))
+
+                console.log("update",feedback)
                 localStorage.setItem("feedback",JSON.stringify(feed[0]))
 
             } else {
@@ -60,7 +61,6 @@ export const Response = ({ section }) => {
         })
     }
     function getResponses() {
-        console.log("++++++++++++++++++++++++++++++",myComments)
         socket.addEventListener("message", (data) => {
             console.log("data.message", JSON.parse(data.data).message)
             var res = JSON.parse(data.data)
@@ -68,6 +68,7 @@ export const Response = ({ section }) => {
                 var feed = JSON.parse(res.data)
                 console.log("broadcast", feed[0])
                 console.log("+++++++++++++",res.data)
+                setFeedback(feed[0])
                 setFeedback(feed[0])
                 localStorage.setItem("feedback",JSON.stringify(feed[0]))
 
@@ -94,7 +95,7 @@ export const Response = ({ section }) => {
         "section": section
     }
     socket.send(JSON.stringify(req))
-    console.log(myComments)
+    
 }
 function deleteComment(event){
     const randomKeu = event.target.parentElement.parentElement.id
@@ -136,17 +137,14 @@ const propsObject ={
 }
 
 return (
-    <FlexCenter className="box-container">
-        <InputContainer {...propsObject}></InputContainer>
- {/* <TextField id="standard-basic" label="Standard" variant="standard" onChange={updateTypo} value={typo}/>*/}
-       
-    {/*    <Button id={section} onClick={sendData} variant="outlined">Send</Button> */}
-    
+    <Box className="box-container">
+
+    <Box className="response-container">
         {feedback[section] && feedback[section].map(res => {
             return (
-                <FlexCenter >
+                
                 <CommentContainer res={res} myComments={myComments} setMyComments={setMyComments} sendData={sendData} section={section} eventListeners={eventListeners}></CommentContainer>
-                </FlexCenter>
+               
                 
 //                 <div id={res.id} className="comment">
 //   {onEdit?<TextField id="standard-basic" label="Standard" variant="standard" onChange={updateTypo} defaultValue={res.text} value={typo}/>:<p >{res.text}</p>}
@@ -168,8 +166,11 @@ return (
         }
         )}
        
-
-    </FlexCenter>
-
+       
+    </Box>
+    <Box  className="input-foot">
+    < InputContainer {...propsObject}></InputContainer>
+    </Box>
+    </Box>
 )
 }

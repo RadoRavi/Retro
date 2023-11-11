@@ -1,6 +1,6 @@
 .textarea {
     display: block;
-    width: 100%;
+    width: 90%;
     overflow: hidden;
     resize: both;
     min-height: 3cap;
@@ -10,4 +10,17 @@
     font-family: inherit;
     font-size: inherit;
     padding: 1px 6px;
+    
+  }
+  .multiInput{
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .inputContainer{
+    display:flex;
+  }
+  .resSend{
+    width: 20%;
+    margin-top: 10px;
+    height: 80%;
   }
