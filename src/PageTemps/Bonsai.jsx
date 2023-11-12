@@ -5,13 +5,17 @@ import "./Feedback.css"
 import { Slot } from "../components/Slot"
 import { Response } from "../components/Response"
 import FlexCenter from "../components/FlexCenter"
+import "./BonsaiJS.js"
+import { NavBar } from "../components/NavBar.jsx"
 
 
 export const Bonsai = () => {
 
+    
 
-    return (
 
+    return (<>
+<NavBar></NavBar>
         <FlexCenter>
             
 
@@ -37,16 +41,16 @@ export const Bonsai = () => {
                 </Slot> */}
             </Box>
 
-            {/* <Grid className="timerCircle" xs={6}>
+            <Box className="timerCircle" >
                 <Box item xs={4}>
                     <Timer ></Timer>
                 </Box>
 
-            </Grid> */}
+            </Box>
 
 
         </FlexCenter>
-
+        </>
     )
 
 

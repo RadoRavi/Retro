@@ -2,8 +2,9 @@
     display: flex;
     align-items: center; /* Vertically center the content */
     margin: 10px; /* Add spacing between comments */
-    background-color: rgb(240, 248, 255,.4);
+    background-image: linear-gradient( rgb(240, 248, 255,.4),  rgb(240, 248, 255,.6));
     border-radius: 10px;
+    font-weight: 600;
     
   }
   
@@ -30,6 +31,7 @@
     flex-direction: column;
     flex-direction: column;
     justify-content: flex-end;
+    width:100%;
   }
   .box-container::-webkit-scrollbar{
     width:2px;
