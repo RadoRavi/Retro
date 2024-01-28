@@ -1,5 +1,5 @@
 import { Box, Grid, InputBase, TextField, Typography,Button } from '@mui/material'
-import { useEffect, useState } from "react"
+import { useEffect, useState} from "react"
 import { useWebSocket } from "../Socker"
 import { useFeedbackStatus,  } from "../App"
 import "./Response.css"
@@ -11,7 +11,7 @@ import { CommentContainer } from './CommentContainer';
 
 export const Response = ({ section }) => {
     const [feedback, setFeedback] = useFeedbackStatus()
-    const [likedComment, setLikedComment] = useState([])
+    const [likedComment, setLikedComment] = useState(["0"])
     const [list,setList] = useState([])
     const [responses, setResponses] = useState()
     const [typo, setTypo] = useState("")

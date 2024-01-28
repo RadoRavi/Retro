@@ -4,7 +4,7 @@ import { useWebSocket } from "../Socker"
 import "./Response.css"
 import { InputContainer } from './InputContainer'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashCan,faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
+import { faTrashCan,faThumbsUp, faThumbsDown,faArrowAltCircleDown,faArrowAltCircleUp } from '@fortawesome/free-regular-svg-icons';
 import { faFileEdit } from '@fortawesome/free-solid-svg-icons'
 import { useWebStatus } from '../App'
 import FlexCenter from './FlexCenter'
@@ -59,7 +59,7 @@ const [onEdit,setOnEdit] = useState(false)
   {myComments.includes(res.id)||(appState.admin==true) && (<>
     {!onEdit&&
     <div className="actions">
-        {(appState.app==='voting'||appState.app==="inGroup")&&<>
+        {(appState.app==="inGroup")&&<>
       <a className="edit-icon" onClick={()=>setOnEdit(true)}><FontAwesomeIcon icon={faFileEdit} style={{color: "#8cb0ee",}} /></a>
       <button id={section}onClick={deleteComment} className="delete-icon" ><FontAwesomeIcon icon={faTrashCan} style={{color: "#8cb0ee",}} /></button>
       </>
@@ -69,10 +69,24 @@ const [onEdit,setOnEdit] = useState(false)
     </>
   )}
   {appState.app==="voting"&&<FlexCenter>
-  <p>{res.vote}</p>
-      <a style={{paddingRight:"10px"}} id={section} className="vote-icon" onClick={vote}><FontAwesomeIcon icon={faThumbsUp} style={{ color: likedComment.includes(id) ? "red" : "#8cb0ee" }}
-/></a>
+  
+  <a  id={section}
+          className={`up`}
+          onClick={vote}
+          style={{ textAlign: "left", color: `${false ? "green" : "gray"}` }}
+        >
+          <FontAwesomeIcon icon={faArrowAltCircleUp} />
+        </a>
+        <p>{res.vote}</p>
+        <a  id={section}
+          className={`down`}
+          onClick={vote}
+          style={{ paddingRight:"10px",textAlign: "left", color: `${false ? "red" : "gray"}` }}
+        >
+          <FontAwesomeIcon icon={faArrowAltCircleDown} />
+        </a>
       </FlexCenter>}
+
 </div>
     )
 }

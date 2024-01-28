@@ -86,13 +86,13 @@ export const Join = () => {
                 console.log("joined")
                 setJoin(true)
                 console.log("before done",appState)
+                const appStatusFromLocal = localStorage.getItem("appStatus")
                 if(adminLocal===adminKey){
                     console.log("reached here")
-                    setAppState({"app":"inGroup","admin":true})
+                    setAppState({"app":appStatusFromLocal?appStatusFromLocal:"inGroup","admin":true})
                     console.log("appState",appState)
-                    //setAppState({"app":"home","admin":true})
                 }else{
-                    setAppState({ ...appState, app: "inGroup" });
+                    setAppState({ ...appState, app: appStatusFromLocal?appStatusFromLocal:"inGroup" });
                 }
                 
                 setFeedback(joinRes.data)
