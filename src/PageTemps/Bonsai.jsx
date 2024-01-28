@@ -15,6 +15,7 @@ export const Bonsai = () => {
 
 
     return (<>
+   
 <NavBar></NavBar>
         <FlexCenter>
             

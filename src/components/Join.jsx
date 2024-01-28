@@ -6,6 +6,9 @@ import setJsonSkeleton from "../JsonFormatter"
 import "./Join.css"
 import FlexCenter from './FlexCenter'
 import FlexBetween from './FlexBetween'
+import {copyToClip} from './Utiles'
+import { faPinterestSquare } from '@fortawesome/free-brands-svg-icons'
+
 
 export const Join = () => {
     const socket = useWebSocket();
@@ -27,6 +30,10 @@ export const Join = () => {
         }
     },[clickAdmin])
 
+    useEffect(() => {
+        console.log("Updated appState:", appState);
+    }, [appState]);
+
     const createGroup = (event) => {
         socket.addEventListener('message', (data) => {
             const resData = JSON.parse(data.data)
@@ -34,8 +41,7 @@ export const Join = () => {
             setId(resData.groupId)
             setPin(resData.pin)
             setJsonSkeleton(resData.groupId)
-            localStorage.setItem("id", resData.groupId)
-            localStorage.setItem("pin", resData.pin)
+            
         }
         )
         const req = {
@@ -50,25 +56,28 @@ export const Join = () => {
         localStorage.setItem("feedback", JSON.stringify(feedback))
     }
 
-    const copyToClip = async () => {
-        const text = `Please search for group id ${id} and use this pin "${pin}" to login`
-        try {
-            await navigator.clipboard.writeText(text);
-            console.log('Content copied to clipboard');
-            setCopy(true)
-            setTimeout(()=>setCopy(false),2000)
-        } catch (err) {
-            console.error('Failed to copy: ', err);
-        }
+    // const copyToClip = async () => {
+    //     const text = `Please search for group id ${id} and use this pin "${pin}" to login`
+    //     try {
+    //         await navigator.clipboard.writeText(text);
+    //         console.log('Content copied to clipboard');
+    //         setCopy(true)
+    //         setTimeout(()=>setCopy(false),2000)
+    //     } catch (err) {
+    //         console.error('Failed to copy: ', err);
+    //     }
 
-    }
+    // }
     const Join = () => {
         setCreate(false)
         setJoin(true)
     }
 
     const joinGroup = (event) => {
-        console.log("joining")
+        var adminLocal = localStorage.getItem("adminpin")
+        var adminKey = id+"-"+pin
+        
+        console.log("joining",appState.admin)
         setCreate(false)
         socket.addEventListener('message', (data) => {
             console.log("joinres", data)
@@ -76,8 +85,16 @@ export const Join = () => {
             if (joinRes.message === "connection success") {
                 console.log("joined")
                 setJoin(true)
-                console.log("before done")
-                setAppState({ ...appState, app: "inGroup" });
+                console.log("before done",appState)
+                if(adminLocal===adminKey){
+                    console.log("reached here")
+                    setAppState({"app":"inGroup","admin":true})
+                    console.log("appState",appState)
+                    //setAppState({"app":"home","admin":true})
+                }else{
+                    setAppState({ ...appState, app: "inGroup" });
+                }
+                
                 setFeedback(joinRes.data)
                 localStorage.setItem("feedback", JSON.stringify(joinRes.data))
                 console.log("after done")
@@ -109,9 +126,10 @@ export const Join = () => {
     const adminJoin = () => {
         setClickAdmin(true)
         setAppState({"app":"home","admin":true})
-        setAppState({"app":"home","admin":true})
-        setId(localStorage.getItem("id"))
-        setPin(localStorage.getItem("pin"))
+        
+        localStorage.setItem("id",id)
+        localStorage.setItem("pin",pin)
+        localStorage.setItem("adminpin", id+"-"+pin)
         console.log("admin ---1 ",appState.admin) 
         
         console.log("admin ---2 ",appState.admin) 
@@ -144,7 +162,7 @@ export const Join = () => {
                                     ? `This your group id:${id} and group pin: ${pin}` : 'Something went wrong, Click on create again or reload the page'}</p>
                                 {(pin && id) && <>
                                     <button onClick={() => adminJoin()}>Join your group as admin</button>
-                                    <button onClick={copyToClip}>{copy?"Copied to Clipboard":"Copy group details to clipboard"}</button>
+                                    <button onClick={()=>copyToClip(id,pin,setCopy)}>{copy?"Copied to Clipboard":"Copy group details to clipboard"}</button>
                                 </>}
                             </>}
                         {join &&

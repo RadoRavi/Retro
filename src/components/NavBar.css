@@ -5,3 +5,7 @@
   width: 100%;
   Height: 40px;
   }
+
+.nav-bar a, .nav-bar p{
+  padding-right: 20px;
+}

@@ -8,7 +8,7 @@ import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
 import "./InputContainer.css"
 
 export const InputContainer=({myComments,setMyComments,section,haveDefault,onEdit,setOnEdit,eventListeners})=>{
-console.log("section",section,"comments",myComments)
+
     const socket = useWebSocket();
     const [typo, setTypo] = useState(haveDefault)
     useEffect(()=>{eventListeners&&eventListeners()},[])
@@ -29,7 +29,7 @@ console.log("section",section,"comments",myComments)
 
     function sendData(event) {
         const id = event.currentTarget.id
-        
+        console.log(id,typo)
         var data=null
         var randomKey=null
         if(onEdit){            
